@@ -193,6 +193,6 @@ def driver_form_lokasi():
     return render_template('ajuan_sppd/driver_kirim_lokasi.html', data=data)
 
 # Jalankan aplikasi
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+ #   app.run(debug=True)
 
