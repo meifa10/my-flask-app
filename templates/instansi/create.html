@@ -1,0 +1,58 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px; margin-bottom: 20px;">🏢 Tambah Data Instansi</h2>
+
+{% if session.role != 'viewer' %}
+<form method="POST" style="max-width: 750px; background-color: #ffffff; padding: 25px 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.08);" autocomplete="off">
+
+    <!-- Nama Instansi -->
+    <label for="nama"><strong>Nama Instansi:</strong></label>
+    <input type="text" id="nama" name="nama" required placeholder="Masukkan nama instansi"
+           style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+
+    <!-- Alamat -->
+    <label for="alamat"><strong>Alamat:</strong></label>
+    <textarea id="alamat" name="alamat" rows="3" required placeholder="Masukkan alamat lengkap instansi"
+              style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+
+    <!-- Kontak -->
+    <label for="kontak"><strong>Kontak:</strong></label>
+    <input type="text" id="kontak" name="kontak" required placeholder="Nomor HP / Telp / Email"
+           style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+
+    <!-- Struktur Organisasi -->
+    <label for="struktur_organisasi"><strong>Struktur Organisasi:</strong></label>
+    <textarea id="struktur_organisasi" name="struktur_organisasi" rows="3" placeholder="Masukkan struktur organisasi atau jabatan penting"
+              style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+
+    <!-- Visi -->
+    <label for="visi"><strong>Visi:</strong></label>
+    <textarea id="visi" name="visi" rows="3" placeholder="Masukkan visi instansi"
+              style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+
+    <!-- Misi -->
+    <label for="misi"><strong>Misi:</strong></label>
+    <textarea id="misi" name="misi" rows="3" placeholder="Masukkan misi instansi"
+              style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+
+    <!-- Tombol Aksi -->
+    <button type="submit"
+            style="padding: 10px 25px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        💾 Simpan
+    </button>
+    <a href="{{ url_for('instansi.index') }}"
+       style="margin-left: 15px; color: #007bff; text-decoration: none;">
+       ← Kembali
+    </a>
+</form>
+
+{% else %}
+<!-- Blok akses ditolak -->
+<div style="padding: 20px; background-color: #fff3cd; color: #856404; border-radius: 8px; max-width: 750px; box-shadow: 0 0 6px rgba(0,0,0,0.05);">
+    <strong>🔒 Akses Ditolak:</strong> Anda tidak memiliki izin untuk menambah data. Hubungi admin jika diperlukan.
+    <br><br>
+    <a href="{{ url_for('instansi.index') }}" style="color: #007bff; text-decoration: none;">← Kembali</a>
+</div>
+{% endif %}
+{% endblock %}

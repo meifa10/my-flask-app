@@ -1,0 +1,46 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">➕ Tambah Data Tr Hasil</h2>
+
+{% if session['role'] == 'viewer' %}
+    <div style="padding: 20px; background-color: #ffe9e9; border: 1px solid #ff9999; border-radius: 6px; margin-top: 20px;">
+        🔒 Anda tidak memiliki izin untuk menambahkan data.
+    </div>
+{% else %}
+<form method="POST" style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 8px;">
+    <!-- Tanggal -->
+    <label for="tanggal"><strong>Tanggal:</strong></label><br>
+    <input type="date" id="tanggal" name="tanggal" required 
+           style="width:100%; padding:8px; margin-bottom:12px;"><br>
+
+    <!-- Jenis -->
+    <label for="jenis"><strong>Jenis:</strong></label><br>
+    <input type="text" id="jenis" name="jenis" required 
+           style="width:100%; padding:8px; margin-bottom:12px;"><br>
+
+    <!-- Jumlah (string) -->
+    <label for="jumlah"><strong>Jumlah:</strong></label><br>
+    <input type="text" id="jumlah" name="jumlah" required placeholder="Contoh: 10000 atau 10.000"
+           style="width:100%; padding:8px; margin-bottom:12px;"><br>
+
+    <!-- Satuan -->
+    <label for="satuan"><strong>Satuan:</strong></label><br>
+    <input type="text" id="satuan" name="satuan"
+           style="width:100%; padding:8px; margin-bottom:12px;"><br>
+
+    <!-- Keterangan -->
+    <label for="keterangan"><strong>Keterangan:</strong></label><br>
+    <textarea id="keterangan" name="keterangan" rows="4"
+              style="width:100%; padding:8px; margin-bottom:20px;"></textarea><br>
+
+    <!-- Tombol -->
+    <button type="submit" 
+            style="padding:10px 20px; background-color:#28a745; color:white; border:none; border-radius:5px;">
+        💾 Simpan
+    </button>
+    <a href="{{ url_for('trhasil.index') }}" 
+       style="margin-left:15px; color:#006aff; text-decoration: none;">← Kembali</a>
+</form>
+{% endif %}
+{% endblock %}

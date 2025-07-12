@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>📍 Tracking Driver - {{ nama or "Driver" }}</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+    }
+    #map {
+      height: 85vh;
+      width: 100%;
+    }
+    #warning {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<h2>📍 Tracking Driver: {{ nama or "Driver" }}</h2>
+<div id="map"></div>
+<div id="warning" style="display: none;">❌ Lokasi belum tersedia untuk driver ini.</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  const id = "{{ id }}";
+  let map, marker, polyline;
+  let path = [];
+
+  async function fetchTrackingData() {
+    try {
+      const res = await fetch(`/ajuan_sppd/get_tracking/${id}`);
+      const result = await res.json();
+
+      if (!result || !result.data || result.data.length === 0) {
+        console.warn("❌ Belum ada data lokasi.");
+        document.getElementById('warning').style.display = 'block';
+        document.getElementById('map').style.display = 'none';
+        return;
+      }
+
+      document.getElementById('warning').style.display = 'none';
+      document.getElementById('map').style.display = 'block';
+
+      path = result.data.map(p => [p.lat, p.lng]);
+      const latest = result.data[result.data.length - 1];
+      const latestCoords = [latest.lat, latest.lng];
+      const latestAddress = latest.alamat || 'Alamat tidak tersedia';
+
+      if (!map) {
+        map = L.map('map').setView(latestCoords, 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        marker = L.marker(latest).addTo(map)
+          .bindPopup(`<b>📍 Lokasi Terakhir:</b><br>${result.data[result.data.length - 1].alamat || 'Alamat tidak tersedia'}`)
+          .openPopup();
+
+        polyline = L.polyline(path, { color: 'blue' }).addTo(map);
+      } else {
+        marker.setLatLng(latestCoords).bindPopup(`<b>📍 Lokasi Terakhir:</b><br>${latestAddress}`).openPopup();
+        polyline.setLatLngs(path);
+        map.setView(latestCoords);
+      }
+
+    } catch (err) {
+      console.error("❌ Gagal mengambil data lokasi:", err);
+      document.getElementById('warning').style.display = 'block';
+      document.getElementById('warning').textContent = '❌ Gagal mengambil data lokasi.';
+    }
+  }
+
+  fetchTrackingData();
+  setInterval(fetchTrackingData, 10000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">🌿 Data Tanaman</h2>
+
+<!-- Notifikasi -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Aksi dan Form Search -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+    <div>
+        {% if session.role != 'viewer' %}
+            <a href="{{ url_for('tanaman.tambah') }}" class="btn btn-primary" style="margin-right: 10px;">Tambah Data</a>
+            <a href="{{ url_for('tanaman.upload_excel') }}" class="btn btn-import-excel" style="margin-right: 10px;">Import Excel</a>
+            <a href="{{ url_for('tanaman.upload_pdf') }}" class="btn btn-primary">Import PDF</a>
+        {% endif %}
+        <a href="{{ url_for('tanaman.unduh_excel') }}" class="btn btn-excel" style="margin-right: 10px;">Unduh Excel</a>
+        <a href="{{ url_for('tanaman.unduh_pdf') }}" class="btn btn-pdf" style="margin-right: 10px;">Unduh PDF</a>
+        <a href="{{ url_for('dashboard') }}" class="btn" style="background-color: #6c757d;">Kembali</a>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" action="{{ url_for('tanaman.index') }}" style="display: flex;">
+        <input type="text" name="q" value="{{ keyword or '' }}" placeholder="Cari..." 
+               style="padding: 6px; font-size: 14px; width: 200px; margin-right: 10px;">
+        <button type="submit" class="btn btn-primary">Cari</button>
+    </form>
+</div>
+
+<!-- Style Tabel -->
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #555;
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        background-color: #d8d7d7;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .aksi-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+    }
+
+    .btn-excel {
+        background-color: #28a745;
+    }
+
+    .btn-pdf {
+        background-color: #28a745;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+    .btn-import-excel {
+    background-color: #007bff; /* Biru muda (info) */
+    color: white;
+    }
+    .btn-import-excel:hover {
+        background-color: #138496;
+    }
+
+</style>
+
+<!-- Tabel Tanaman -->
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama Tanaman</th>
+            <th>Luas Lahan</th>
+            <th>Tanggal Tanam</th>
+            <th>Estimasi Panen</th>
+            <th>Hasil Panen</th>
+            {% if session.role != 'viewer' %}
+            <th>Aksi</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ d[1] }}</td>
+            <td>{{ d[2] }}</td>
+            <td>{{ d[3] }}</td>
+            <td>{{ d[4] }}</td>
+            <td>{{ d[5] }}</td>
+            {% if session.role != 'viewer' %}
+            <td>
+                <div class="aksi-row">
+                    <a href="{{ url_for('tanaman.edit', id=d[0]) }}">
+                        <button class="btn btn-edit">✏️ Edit</button>
+                    </a>
+                    <a href="{{ url_for('tanaman.hapus', id=d[0]) }}" onclick="return confirm('Hapus data ini?')">
+                        <button class="btn btn-delete">🗑️ Hapus</button>
+                    </a>
+                </div>
+            </td>
+            {% endif %}
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="{% if session.role != 'viewer' %}7{% else %}6{% endif %}" style="text-align: center;">Tidak ada data ditemukan.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

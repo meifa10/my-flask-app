@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Ajuan SPPD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h2>➕ Tambah Ajuan SPPD</h2>
+
+<form method="POST">
+    <label for="nama">Nama</label>
+    <input type="text" id="nama" name="nama" required>
+
+    <label for="jabatan">Jabatan</label>
+    <input type="text" id="jabatan" name="jabatan" required>
+
+    <label for="tujuan">Tujuan</label>
+    <input type="text" id="tujuan" name="tujuan" required>
+
+    <label for="berangkat">Tanggal Berangkat</label>
+    <input type="date" id="berangkat" name="berangkat" required>
+
+    <label for="pulang">Tanggal Pulang</label>
+    <input type="date" id="pulang" name="pulang" required>
+
+    <label for="nopol">Nomor Polisi Kendaraan</label>
+    <input type="text" id="nopol" name="nopol" required>
+
+    <label for="driver">Nama Driver</label>
+    <input type="text" id="driver" name="driver" required>
+
+    <!-- Link Lokasi Dihilangkan, akan diisi otomatis oleh driver -->
+    <input type="hidden" name="lokasi" value="">
+
+    <button type="submit">💾 Simpan</button>
+</form>
+
+</body>
+</html>

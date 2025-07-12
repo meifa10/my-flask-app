@@ -1,0 +1,42 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import Data Sekum - {{ jenis }}</h2>
+
+<!-- Notifikasi -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Form Upload -->
+<form method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+    <label for="file" style="font-weight: bold;">Pilih File Excel (.xlsx / .xls / .csv):</label><br><br>
+    <input type="file" name="file" accept=".xlsx,.xls,.csv" required><br><br>
+
+    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        Import Data
+    </button>
+
+    <a href="{{ url_for('sekum.index_jenis', jenis_urlkey=jenis_url) }}" style="margin-left: 10px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        Kembali
+    </a>
+</form>
+
+<!-- Panduan Format -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Format File:</strong></p>
+    <ul>
+        <li>Kolom wajib: <code>Tanggal</code>, <code>Nomor</code>, <code>Vendor</code></li>
+        <li>Format tanggal: <code>YYYY-MM-DD</code> (contoh: <code>2025-07-06</code>)</li>
+        <li>Ekstensi file yang didukung: <code>.xlsx</code>, <code>.xls</code>, atau <code>.csv</code></li>
+        <li>Hindari baris kosong di awal atau tengah data</li>
+        <li>Pastikan nama kolom sesuai dan tidak typo</li>
+    </ul>
+</div>
+{% endblock %}

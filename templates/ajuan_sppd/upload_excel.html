@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Import Excel / CSV - Ajuan SPPD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f9f9f9;
+        }
+
+        .upload-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .custom-file-upload {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #218838;
+        }
+
+        .custom-file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <h2>🟢 Import Excel / CSV - Ajuan SPPD</h2>
+        <form action="{{ url_for('ajuan_sppd.import_excel') }}" method="POST" enctype="multipart/form-data">
+            <label class="custom-file-upload">
+                📁 Import File
+                <input type="file" name="file" accept=".csv, .xls, .xlsx, .xlsm, .ods" required onchange="this.form.submit()">
+            </label>
+        </form>
+    </div>
+</body>
+</html>

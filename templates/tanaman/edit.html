@@ -1,0 +1,37 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">✏️ Edit Data Tanaman</h2>
+
+{% if session.role != 'viewer' %}
+<form method="POST" style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);">
+
+    <label for="nama_tanaman">Nama Tanaman:</label><br>
+    <input type="text" id="nama_tanaman" name="nama_tanaman" value="{{ row[1] }}" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="luas_lahan">Luas Lahan (ha):</label><br>
+    <input type="number" step="0.01" id="luas_lahan" name="luas_lahan" value="{{ row[2] }}" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="tanggal_tanam">Tanggal Tanam:</label><br>
+    <input type="date" id="tanggal_tanam" name="tanggal_tanam" value="{{ row[3] }}" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="estimasi_panen">Estimasi Panen:</label><br>
+    <input type="date" id="estimasi_panen" name="estimasi_panen" value="{{ row[4] }}" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="hasil_panen">Hasil Panen (Ton):</label><br>
+    <input type="number" step="0.01" id="hasil_panen" name="hasil_panen" value="{{ row[5] }}" required style="width:100%; padding:8px; margin-bottom: 20px;"><br>
+
+    <button type="submit" style="padding:10px 20px; background-color:#006aff; color:white; border:none; border-radius:5px;">
+        Update
+    </button>
+    <a href="{{ url_for('tanaman.index') }}" style="margin-left:15px; color:#007bff; text-decoration: none;">← Kembali</a>
+</form>
+{% else %}
+<div style="padding: 20px; background-color: #fff3cd; color: #856404; border-radius: 8px; max-width: 600px;">
+    🔒 Anda tidak memiliki izin untuk mengedit data. Hubungi admin jika diperlukan.
+    <br><br>
+    <a href="{{ url_for('tanaman.index') }}" style="color:#007bff; text-decoration: none;">← Kembali</a>
+</div>
+{% endif %}
+
+{% endblock %}

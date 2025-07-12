@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Ajuan SPPD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4; 
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #1e8449;
+        }
+    </style>
+</head>
+<body>
+
+<h2>✏️ Edit Ajuan SPPD</h2>
+
+<form method="POST">
+    <label for="nama">Nama</label>
+    <input type="text" name="nama" id="nama" value="{{ row[1] }}" required>
+
+    <label for="jabatan">Jabatan</label>
+    <input type="text" name="jabatan" id="jabatan" value="{{ row[2] }}" required>
+
+    <label for="tujuan">Tujuan</label>
+    <input type="text" name="tujuan" id="tujuan" value="{{ row[3] }}" required>
+
+    <label for="berangkat">Tanggal Berangkat</label>
+    <input type="date" name="berangkat" id="berangkat" value="{{ row[4] }}" required>
+
+    <label for="pulang">Tanggal Pulang</label>
+    <input type="date" name="pulang" id="pulang" value="{{ row[5] }}" required>
+
+    <label for="nopol">Nomor Polisi Kendaraan</label>
+    <input type="text" name="nopol" id="nopol" value="{{ row[6] }}" required>
+
+    <label for="driver">Nama Driver</label>
+    <input type="text" name="driver" id="driver" value="{{ row[7] }}" required>
+
+    <label for="lokasi_link">Link Lokasi (Google Maps)</label>
+    <input type="url" name="lokasi_link" id="lokasi_link" placeholder="https://maps.google.com/..." value="{{ row[8] }}" required>
+
+    <button type="submit">🔄 Update</button>
+</form>
+
+</body>
+</html>

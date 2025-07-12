@@ -1,0 +1,104 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">👥 Data SDM - {{ status }}</h2>
+
+<!-- Tombol Aksi -->
+<div style="margin-bottom: 20px;">
+    {% if session['role'] != 'viewer' %}
+        <a href="{{ url_for('sdm.tambah', status=status) }}" class="btn btn-primary">Tambah Data</a>
+
+        <!-- Form Import Excel -->
+        <a href="{{ url_for('sdm.upload_excel_form', status=status) }}" class="btn btn-success">Import Excel</a>
+        <!-- Form Import PDF -->
+        <form method="GET" action="{{ url_for('sdm.upload_pdf_form', status=status) }}" style="display: inline;">
+            <button type="submit" class="btn btn-secondary">Import PDF</button>
+        </form>
+    {% endif %}
+    <a href="{{ url_for('dashboard') }}" class="btn btn-kembali">Kembali</a>
+</div>
+
+<!-- Form Pencarian -->
+<form method="GET" action="{{ url_for('sdm.index', status=status) }}" style="margin-bottom: 20px;">
+    <input type="text" name="cari" placeholder="Cari..." style="padding: 6px; width: 250px;" value="{{ request.args.get('cari', '') }}">
+    <button type="submit" class="btn btn-primary">Cari</button>
+</form>
+
+<!-- Tabel Data -->
+<table>
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>No. Kontrak</th>
+            <th>Data Diri</th>
+            <th>Tanggal</th>
+            {% if session['role'] != 'viewer' %}
+                <th>Aksi</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ d[1] }}</td>
+            <td>{{ d[2] }}</td>
+            <td>{{ d[3] }}</td>
+            {% if session['role'] != 'viewer' %}
+            <td class="aksi-row">
+                <a href="{{ url_for('sdm.edit', id=d[0]) }}" class="btn btn-edit">✏️ Edit</a>
+                <a href="{{ url_for('sdm.hapus', id=d[0]) }}" onclick="return confirm('Hapus data ini?')" class="btn btn-delete">🗑️ Hapus</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="{% if session['role'] != 'viewer' %}5{% else %}4{% endif %}" style="text-align: center;">Tidak ada data ditemukan.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Tombol Unduh -->
+<div style="margin-top: 15px;">
+    <a href="{{ url_for('sdm.unduh_excel', status=status) }}" class="btn btn-excel">Unduh Excel</a>
+    <a href="{{ url_for('sdm.unduh_pdf', status=status) }}" class="btn btn-pdf">Unduh PDF</a>
+</div>
+
+<!-- Style -->
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-right: 6px;
+        display: inline-block;
+    }
+    .btn-primary { background: #007bff; color: white; }
+    .btn-secondary { background: #007bff; color: white; }
+    .btn-success { background: #007bff; color: white; }
+    .btn-edit { background: #ffc107; color: black; }
+    .btn-delete { background: #dc3545; color: white; }
+    .btn-excel { background: #28a745; color: white; }
+    .btn-pdf { background: #28a745; color: white; }
+    .btn-kembali {
+    background: #6c757d; /* Abu-abu */
+    color: white;
+}
+</style>
+{% endblock %}

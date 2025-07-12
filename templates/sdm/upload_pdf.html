@@ -1,0 +1,45 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import PDF - SDM ({{ status|upper }})</h2>
+
+<!-- Notifikasi Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Form Upload PDF -->
+<form method="POST" action="{{ url_for('sdm.import_pdf', status=status) }}" enctype="multipart/form-data" style="margin-top: 20px;">
+    <label style="font-weight: bold;">Pilih File PDF:</label><br><br>
+    <input type="file" name="file" accept=".pdf" required style="margin-bottom: 20px;"><br>
+
+    <!-- Tombol di bawah file input -->
+    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border-radius: 5px; border: none;">
+        📤 Upload
+    </button>
+
+    <a href="{{ url_for('sdm.index', status=status) }}"
+       style="display: inline-block; margin-top: 10px; margin-left: 10px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        ← Kembali
+    </a>
+</form>
+
+<!-- 📄 Panduan -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Upload PDF:</strong></p>
+    <ul>
+        <li>File harus berformat <code>.pdf</code></li>
+        <li>Setiap baris dalam PDF harus memuat: <strong>No. Kontrak, Data Diri, dan Tanggal</strong></li>
+        <li>Contoh format baris yang valid:<br>
+            <code>1 A-001 Joko Santoso 2024-07-01</code>
+        </li>
+        <li>Gunakan spasi untuk pemisah antar kolom</li>
+    </ul>
+</div>
+{% endblock %}

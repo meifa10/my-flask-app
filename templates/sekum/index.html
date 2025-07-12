@@ -1,0 +1,113 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📂 Data Sekum - {{ jenis }}</h2>
+
+<!-- Tombol Tambah, Import Excel, Upload PDF, Kembali -->
+<div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;">
+    {% if session['role'] != 'viewer' %}
+        <!-- Tambah Data -->
+        <a href="{{ url_for('sekum.tambah', jenis_urlkey=jenis_url) }}" class="btn btn-primary">Tambah Data</a>
+
+        <!-- Import Excel -->
+        <form method="POST" action="{{ url_for('sekum.import_excel', jenis_urlkey=jenis_url) }}" enctype="multipart/form-data">
+            <label for="excel-upload" class="btn btn-success" style="cursor: pointer;">
+                Import Excel
+                <input id="excel-upload" type="file" name="file" accept=".xlsx" required onchange="this.form.submit()" style="display: none;">
+            </label>
+        </form>
+
+        <!-- Upload PDF -->
+        <form method="POST" action="{{ url_for('sekum.import_pdf', jenis_urlkey=jenis_url) }}" enctype="multipart/form-data">
+            <label for="pdf-upload" class="btn btn-success" style="cursor: pointer;">
+                Import PDF
+                <input id="pdf-upload" type="file" name="file" accept=".pdf" required onchange="this.form.submit()" style="display: none;">
+            </label>
+        </form>
+    {% endif %}
+
+    <!-- Kembali -->
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Kembali</a>
+</div>
+
+<!-- Form Pencarian -->
+<form method="GET" action="{{ url_for('sekum.index_jenis', jenis_urlkey=jenis_url) }}" style="margin-bottom: 20px;">
+    <input type="text" name="cari" placeholder="Cari..." style="padding: 6px; width: 200px;" value="{{ request.args.get('cari', '') }}">
+    <button type="submit" class="btn btn-primary">Cari...</button>
+</form>
+
+<!-- Tabel Data -->
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nomor Surat</th>
+            <th>Vendor</th>
+            <th>Tanggal</th>
+            {% if session['role'] != 'viewer' %}
+                <th>Aksi</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ d[1] }}</td>  <!-- Nomor Surat -->
+            <td>{{ d[2] }}</td>  <!-- Vendor -->
+            <td>{{ d[3] }}</td>  <!-- Tanggal -->
+            {% if session['role'] != 'viewer' %}
+            <td>
+                <a href="{{ url_for('sekum.edit', id=d[0]) }}" class="btn btn-edit">✏️ Edit</a>
+                <a href="{{ url_for('sekum.hapus', id=d[0]) }}" onclick="return confirm('Hapus data ini?')" class="btn btn-delete">🗑️ Hapus</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="{% if session['role'] != 'viewer' %}5{% else %}4{% endif %}" style="text-align: center;">Tidak ada data ditemukan.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Tombol Unduh -->
+<div style="margin-top: 15px;">
+    <a href="{{ url_for('sekum.unduh_excel', jenis_urlkey=jenis_url) }}" class="btn btn-excel">Unduh Excel</a>
+    <a href="{{ url_for('sekum.unduh_pdf', jenis_urlkey=jenis_url) }}" class="btn btn-pdf">Unduh PDF</a>
+</div>
+
+<!-- Styling -->
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-right: 6px;
+        display: inline-block;
+        border: none;
+    }
+    .btn-primary { background: #007bff; color: white; }
+    .btn-secondary { background: #6c757d; color: white; }
+    .btn-success { background: #007bff; color: white; }
+    .btn-edit { background: #ffc107; color: black; }
+    .btn-delete { background: #dc3545; color: white; }
+    .btn-excel { background: #28a745; color: white; }
+    .btn-pdf { background: #28a745; color: white; }
+</style>
+{% endblock %}

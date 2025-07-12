@@ -1,0 +1,42 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import PDF - Pembukuan</h2>
+
+<!-- Notifikasi Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Form Upload PDF -->
+<form method="POST" action="{{ url_for('pembukuan.upload_pdf') }}" enctype="multipart/form-data" style="margin-top: 20px;">
+    <label for="file"><strong>Pilih File PDF:</strong></label><br><br>
+    <input type="file" name="file" accept=".pdf" required style="margin-bottom: 10px;">
+
+    <br>
+    <button type="submit" style="padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 5px;">
+        Upload PDF
+    </button>
+
+    <a href="{{ url_for('pembukuan.index') }}" style="padding: 10px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        Kembali
+    </a>
+</form>
+
+<!-- Panduan Format -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Format PDF:</strong></p>
+    <ul>
+        <li>PDF harus berisi teks tabel (bukan gambar atau hasil scan).</li>
+        <li>Setiap baris harus mengandung minimal 6 kolom: <strong>Tanggal, Akun, Keterangan, Debit, Kredit, Saldo</strong></li>
+        <li>Contoh format baris: <code>1 2025-07-07 Penjualan Produk 1000000 0 1000000</code></li>
+        <li>Jangan ada baris kosong di tengah file.</li>
+    </ul>
+</div>
+{% endblock %}

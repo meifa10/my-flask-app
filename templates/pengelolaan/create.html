@@ -1,0 +1,41 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">➕ Tambah Data Pengelolaan</h2>
+
+{% if session.role != 'viewer' %}
+<form method="POST" style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);">
+
+    <label for="nama_aset">Nama Aset:</label><br>
+    <input type="text" id="nama_aset" name="nama_aset" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="lokasi">Lokasi:</label><br>
+    <input type="text" id="lokasi" name="lokasi" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="status">Status:</label><br>
+    <select id="status" name="status" required style="width:100%; padding:8px; margin-bottom: 12px;">
+        <option value="">-- Pilih Status --</option>
+        <option value="Aktif">Aktif</option>
+        <option value="Rusak">Rusak</option>
+        <option value="Perawatan">Perawatan</option>
+    </select><br>
+
+    <label for="jadwal_perawatan">Jadwal Perawatan:</label><br>
+    <input type="date" id="jadwal_perawatan" name="jadwal_perawatan" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="pic">👤 Penanggung Jawab (PIC):</label><br>
+    <input type="text" id="pic" name="pic" required style="width:100%; padding:8px; margin-bottom: 20px;"><br>
+
+    <button type="submit" style="padding:10px 20px; background-color:#28a745; color:white; border:none; border-radius:5px;">
+        💾 Simpan
+    </button>
+    <a href="{{ url_for('pengelolaan.index') }}" style="margin-left:15px; color:#007bff; text-decoration: none;">← Kembali</a>
+</form>
+{% else %}
+<div style="padding: 20px; background-color: #fff3cd; color: #856404; border-radius: 8px; max-width: 600px;">
+    🔒 Anda tidak memiliki izin untuk menambah data. Hubungi admin jika diperlukan.
+    <br><br>
+    <a href="{{ url_for('pengelolaan.index') }}" style="color:#007bff; text-decoration: none;">← Kembali</a>
+</div>
+{% endif %}
+{% endblock %}

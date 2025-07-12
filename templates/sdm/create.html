@@ -1,0 +1,22 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">➕ Tambah Data SDM - {{ status|capitalize }}</h2>
+
+<form method="POST" enctype="multipart/form-data" style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);">
+
+    <label for="no_kontrak">📄 No. Kontrak:</label><br>
+    <input type="text" id="no_kontrak" name="no_kontrak" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="data_diri">👤 Data Diri:</label><br>
+    <input type="text" id="data_diri" name="data_diri" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="tanggal">📅 Tanggal:</label><br>
+    <input type="date" id="tanggal" name="tanggal" required style="width:100%; padding:8px; margin-bottom: 20px;"><br>
+
+    <button type="submit" style="padding:10px 20px; background-color:#28a745; color:white; border:none; border-radius:5px;">
+        💾 Simpan
+    </button>
+    <a href="{{ url_for('sdm.index', status=status) }}" style="margin-left:15px; color:#007bff; text-decoration: none;">← Kembali</a>
+</form>
+{% endblock %}

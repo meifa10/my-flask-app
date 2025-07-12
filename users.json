@@ -1,0 +1,42 @@
+{
+  "admin": {
+    "password": "scrypt:32768:8:1$h4mF9weiHWFG24np$04fe3be393e2f787c96ac5a977e9fb2be62494df7f0f96cf16c425d8a6d550d652a347fd211aadd23a52fa5fe16ef7090eefd5f7186d10e1944b152d0a721ad0",
+    "role": "admin"
+  },
+  "keuangan_user": {
+    "password": "scrypt:32768:8:1$RRfDXNdWwVIwMSZg$3c3f8314e893cfca274f8a33f664387b73938284f84c71fab81236994528014ad79fb80f677803bbec0f4c7943f5ad8e6809a7925549d5c2e5602e178bab5214",
+    "role": "keuangan"
+  },
+  "pembukuan_user": {
+    "password": "scrypt:32768:8:1$HQqlf5qQMtplFm0A$6a8975286b31863515ab4427d01362f6b101b46b7e3dd97bf822b6c7bef5c2b6527175abd33dd825408e3244d11c88af7cebc92e4a9e9548a4bd325f60ce95bc",
+    "role": "pembukuan"
+  },
+  "pengelolaan_user": {
+    "password": "scrypt:32768:8:1$1LeCBbv5US0jGhTU$27858019bc823536887fbf6365ac5618c1f20059ab338a3146daad5ebb34ff28debd133d08103d29b297003ed84517cd98ed5125a7458c91885ab077d2b8e237",
+    "role": "pengelolaan"
+  },
+  "sdm_user": {
+    "password": "scrypt:32768:8:1$RvYDoylsB2cNW8Zj$919d38890d0eda1c7f6b70c45d689d3cf5a9eb24cef2282a8d699d5616b97b3dac2c6d26aa15c2f30dd61a3cccb58eba3c13c645aacea533c96daab6538543e5",
+    "role": "sdm"
+  },
+  "trhasil_user": {
+    "password": "scrypt:32768:8:1$XZ7Rc0DihZ1GPAub$38dcb8b16e2f006bf45fc8965e399f72677d4afd8fd7836ccc12cf2b68bf9fc887d039db7921c2ddfae2788b2e0b03423fa470cb4fa2d4f3229e016d970c1f9f",
+    "role": "trhasil"
+  },
+  "sekum_user": {
+    "password": "scrypt:32768:8:1$2yGQvJElv7EKllfZ$a429aa2bee45694aa037509d8c79b9bc45ed9880632d851da4fb71ff7fadbb745f7771d01187d7fc473d403e5a315b7dcb2c794d792c82157e4c753fcee6f366",
+    "role": "sekum"
+  },
+  "instansi_user": {
+    "password": "scrypt:32768:8:1$1qJXSWaoEkX0hvoB$3a0cdd84a70f9bb33ae0d2cdc6badabed6b5d006821a79330e57078070b6903e06f6bb1e689ae16bb286d00d14e45b324df59e1cb4abbee64621b07b29bf66f4",
+    "role": "instansi"
+  },
+  "driver_user": {
+    "password": "scrypt:32768:8:1$eBMxfnsoc18gtRGb$b7e95169cd68ecc16dc359e2a4afcf1abfa0d88892b4706b8747dcbd1e04e1894dce5e824a5b24a58a2f95f3110b377995b5809dfdb79c19c26d5607bbbdf35d",
+    "role": "driver"
+  },
+  "mei": {
+    "password": "scrypt:32768:8:1$p0DafTNJx7FOaMZQ$e8e90bdf29c114f6e4b56e9f1eb4710eb88963e48a74cb4b18b3a3c29db950d951625316b057e0d23341a58640504290d75c1328505200525f92e344aa39a706",
+    "role": "viewer"
+  }
+}

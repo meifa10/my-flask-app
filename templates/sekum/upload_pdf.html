@@ -1,0 +1,40 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import PDF - {{ jenis }}</h2>
+
+<!-- Notifikasi Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Form Upload PDF -->
+<form method="POST" action="{{ url_for('sekum.import_pdf', jenis_urlkey=jenis_url) }}" enctype="multipart/form-data" style="margin-top: 20px;">
+    <input type="file" name="file" accept=".pdf" required style="margin-bottom: 10px;">
+
+    <button type="submit" style="padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 5px;">
+        Upload PDF
+    </button>
+
+    <a href="{{ url_for('sekum.index_jenis', jenis_urlkey=jenis_url) }}" style="margin-left: 10px; padding: 10px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        Kembali
+    </a>
+</form>
+
+
+<!-- Panduan -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Upload:</strong></p>
+    <ul>
+        <li>File harus berformat <code>.pdf</code></li>
+        <li>Pastikan file berisi tabel dengan kolom: <strong>Tanggal, Nomor Surat, Vendor</strong></li>
+        <li>Tidak ada batasan jumlah halaman</li>
+    </ul>
+</div>
+{% endblock %}

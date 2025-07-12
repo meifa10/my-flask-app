@@ -1,0 +1,44 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import Data SDM dari Excel</h2>
+
+<!-- 🔔 Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- 📤 Upload Form -->
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('sdm.import_excel', status=status) }}" style="margin-top: 20px;">
+    <label><strong>Pilih File Excel:</strong></label><br><br>
+
+    <input type="file" name="excel_file" accept=".xlsx,.xls,.csv" required style="margin-bottom: 10px;"><br>
+
+    <button type="submit"
+        style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        📤 Upload
+    </button>
+
+    <a href="{{ url_for('sdm.index', status=status) }}"
+       style="margin-left: 10px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        ← Kembali
+    </a>
+</form>
+
+<!-- 📄 Panduan -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Format Excel:</strong></p>
+    <ul>
+        <li>Kolom wajib: <code>No. Kontrak</code>, <code>Data Diri</code>, <code>Tanggal</code></li>
+        <li>Format tanggal: <code>YYYY-MM-DD</code> (contoh: <code>2025-07-06</code>)</li>
+        <li>Didukung: <code>.xlsx</code>, <code>.xls</code>, <code>.csv</code></li>
+        <li>Baris pertama harus berisi header/nama kolom</li>
+    </ul>
+</div>
+{% endblock %}

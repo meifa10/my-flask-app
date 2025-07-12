@@ -1,0 +1,45 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">✏️ Edit Data Pembukuan</h2>
+
+{% if session.role != 'viewer' %}
+<form method="POST" style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);">
+    <!-- Tanggal -->
+    <label for="tanggal">Tanggal:</label><br>
+    <input type="date" id="tanggal" name="tanggal" value="{{ row[1] }}" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <!-- Akun -->
+    <label for="akun">Akun:</label><br>
+    <input type="text" id="akun" name="akun" value="{{ row[2] }}" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <!-- Keterangan -->
+    <label for="keterangan">Keterangan:</label><br>
+    <textarea id="keterangan" name="keterangan" rows="3" required style="width:100%; padding:8px; margin-bottom: 12px;">{{ row[3] }}</textarea><br>
+
+    <!-- Debit (as string input) -->
+    <label for="debit">Debit:</label><br>
+    <input type="text" id="debit" name="debit" value="{{ row[4] }}" pattern="^\d+(\.\d+)?$" title="Hanya angka atau desimal" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <!-- Kredit (as string input) -->
+    <label for="kredit">Kredit:</label><br>
+    <input type="text" id="kredit" name="kredit" value="{{ row[5] }}" pattern="^\d+(\.\d+)?$" title="Hanya angka atau desimal" required style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <!-- Saldo (as string input) -->
+    <label for="saldo">Saldo:</label><br>
+    <input type="text" id="saldo" name="saldo" value="{{ row[6] }}" pattern="^\d+(\.\d+)?$" title="Hanya angka atau desimal" required style="width:100%; padding:8px; margin-bottom: 20px;"><br>
+
+    <!-- Tombol Update -->
+    <button type="submit" style="padding:10px 20px; background-color:#006aff; color:white; border:none; border-radius:5px;">
+        Update
+    </button>
+    <a href="{{ url_for('pembukuan.index') }}" style="margin-left:15px; color:#007bff; text-decoration: none;">← Kembali</a>
+</form>
+{% else %}
+<div style="padding: 20px; background-color: #fff3cd; color: #856404; border-radius: 8px; max-width: 600px;">
+    🔒 Anda tidak memiliki izin untuk mengedit data. Hubungi admin jika diperlukan.
+    <br><br>
+    <a href="{{ url_for('pembukuan.index') }}" style="color:#007bff; text-decoration: none;">← Kembali</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">✏️ Edit Data SDM - {{ status }}</h2>
+
+<form method="POST"
+      style="max-width: 700px; background: #ffffff; padding: 25px 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+    <!-- No. Kontrak -->
+    <label for="no_kontrak" style="font-weight: bold;">🆔 No. Kontrak</label>
+    <input type="text" id="no_kontrak" name="no_kontrak" value="{{ row[1] }}" required
+           style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
+
+    <!-- Data Diri -->
+    <label for="data_diri" style="font-weight: bold;">👤 Data Diri</label>
+    <input type="text" id="data_diri" name="data_diri" value="{{ row[2] }}" required
+           style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
+
+    <!-- Tanggal -->
+    <label for="tanggal" style="font-weight: bold;">📅 Tanggal</label>
+    <input type="date" id="tanggal" name="tanggal" value="{{ row[3] }}" required
+           style="width: 100%; padding: 10px; margin-bottom: 25px; border: 1px solid #ccc; border-radius: 6px;">
+
+    <!-- Hidden status -->
+    <input type="hidden" name="status" value="{{ status }}">
+
+    <!-- Tombol -->
+    <div style="display: flex; align-items: center;">
+        <button type="submit"
+                style="padding: 10px 25px; background-color: #006aff; color: white; border: none; border-radius: 6px; cursor: pointer;">
+            ✅ Update
+        </button>
+        <a href="{{ url_for('sdm.index', status=status) }}"
+           style="margin-left: 20px; color: #007bff; text-decoration: none;">
+           ← Kembali
+        </a>
+    </div>
+</form>
+{% endblock %}

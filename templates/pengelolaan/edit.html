@@ -1,0 +1,39 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">✏️ Edit Data Pengelolaan</h2>
+
+<form method="POST" style="max-width: 600px; background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);">
+
+    <label for="nama_aset">Nama Aset:</label><br>
+    <input type="text" id="nama_aset" name="nama_aset" value="{{ row[1] }}" required 
+           style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="lokasi">Lokasi:</label><br>
+    <input type="text" id="lokasi" name="lokasi" value="{{ row[2] }}" required 
+           style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="status">Status:</label><br>
+    <select id="status" name="status" required style="width:100%; padding:8px; margin-bottom: 12px;">
+        <option value="">-- Pilih Status --</option>
+        <option value="Aktif" {% if row[3] == 'Aktif' %}selected{% endif %}>Aktif</option>
+        <option value="Rusak" {% if row[3] == 'Rusak' %}selected{% endif %}>Rusak</option>
+        <option value="Perawatan" {% if row[3] == 'Perawatan' %}selected{% endif %}>Perawatan</option>
+    </select><br>
+
+    <label for="jadwal_perawatan">Jadwal Perawatan:</label><br>
+    <input type="date" id="jadwal_perawatan" name="jadwal_perawatan" value="{{ row[4] }}" required 
+           style="width:100%; padding:8px; margin-bottom: 12px;"><br>
+
+    <label for="pic">👤 Penanggung Jawab (PIC):</label><br>
+    <input type="text" id="pic" name="pic" value="{{ row[5] }}" required 
+           style="width:100%; padding:8px; margin-bottom: 20px;"><br>
+
+    <button type="submit" 
+            style="padding:10px 20px; background-color:#006aff; color:white; border:none; border-radius:5px;">
+        Update
+    </button>
+    <a href="{{ url_for('pengelolaan.index') }}" 
+       style="margin-left:15px; color:#007bff; text-decoration: none;">← Kembali</a>
+</form>
+{% endblock %}

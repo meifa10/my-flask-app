@@ -1,0 +1,117 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📡 Kirim Lokasi Perjalanan - Real Time</h2>
+
+<p>Halo driver, sistem ini akan mengirimkan lokasi Anda setiap 10 detik secara otomatis setelah Anda menekan tombol.</p>
+<p>Logout tidak menghentikan pelacakan. Pastikan tekan "Hentikan Tracking" bila perjalanan selesai.</p>
+
+<button onclick="mulaiTracking()" class="btn-primary">▶️ Mulai Tracking</button>
+<button onclick="hentikanTracking()" class="btn-danger" style="margin-left: 10px;">⛔ Hentikan Tracking</button>
+
+<p id="status" style="margin-top: 20px; font-weight: bold;"></p>
+
+<script>
+    let intervalId = null;
+    const id = "{{ id }}";
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (trackingAktif) {
+            mulaiTracking(true); // true artinya dipanggil otomatis saat load
+        } else {
+            document.getElementById("status").textContent = "⛔ Tracking belum aktif.";
+            document.getElementById("status").style.color = "red";
+        }
+    });
+
+    function mulaiTracking(auto = false) {
+        if (intervalId) {
+            if (!auto) alert("Tracking sudah berjalan.");
+            return;
+        }
+
+        if (!auto) {
+            fetch(`/mulai_tracking/${id}`, { method: "POST" });
+        }
+
+        kirimLokasi();
+        intervalId = setInterval(kirimLokasi, 10000);
+
+        document.getElementById("status").textContent = "📶 Tracking aktif...";
+        document.getElementById("status").style.color = "green";
+    }
+
+    function hentikanTracking() {
+        if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+
+        fetch(`/stop_tracking/${id}`, { method: "POST" });
+
+        document.getElementById("status").textContent = "⛔ Tracking dihentikan.";
+        document.getElementById("status").style.color = "red";
+    }
+
+    function kirimLokasi() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                const latitude = pos.coords.latitude;
+                const longitude = pos.coords.longitude;
+
+                fetch("{{ url_for('ajuan_sppd.lapor_lokasi') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `id=${id}&latitude=${latitude}&longitude=${longitude}`
+                })
+                .then(res => res.json())
+                .then(data => console.log("📍 Lokasi terkirim:", data))
+                .catch(err => console.error("❌ Gagal kirim:", err));
+            }, function (error) {
+                console.error("Geolocation error:", error.message);
+                alert("❌ Gagal mengambil lokasi: " + error.message);
+            });
+        } else {
+            alert("❌ Browser tidak mendukung Geolocation.");
+        }
+    }
+</script>
+
+<style>
+    .btn-primary {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-danger {
+        padding: 10px 20px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    p {
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}

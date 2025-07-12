@@ -1,0 +1,38 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📄 Tambah Data Sekum - {{ jenis }}</h2>
+
+<form method="POST" enctype="multipart/form-data"
+      style="max-width: 700px; background: #ffffff; padding: 25px 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+    <!-- Nomor Surat -->
+    <label for="nomor_surat" style="font-weight: bold;">#️⃣ Nomor Surat</label>
+    <input type="text" id="nomor_surat" name="nomor_surat" required
+           placeholder="Contoh: 001/ABC/VII/2025"
+           style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
+
+    <!-- Vendor -->
+    <label for="vendor" style="font-weight: bold;">🏢 Vendor</label>
+    <input type="text" id="vendor" name="vendor" required
+           placeholder="Contoh: PT. Gula Sejahtera"
+           style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
+
+    <!-- Tanggal -->
+    <label for="tanggal" style="font-weight: bold;">📅 Tanggal</label>
+    <input type="date" id="tanggal" name="tanggal" required
+           style="width: 100%; padding: 10px; margin-bottom: 25px; border: 1px solid #ccc; border-radius: 6px;">
+
+    <!-- Tombol -->
+    <div style="display: flex; align-items: center;">
+        <button type="submit"
+                style="padding: 10px 25px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
+            💾 Simpan
+        </button>
+        <a href="{{ url_for('sekum.index_jenis', jenis_urlkey=jenis_url) }}"
+           style="margin-left: 20px; color: #007bff; text-decoration: none;">
+           ← Kembali
+        </a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import Data Instansi dari Excel</h2>
+
+<!-- Notifikasi -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Form Upload -->
+<form method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+    <label for="excel_file" style="font-weight: bold;">Pilih File Excel (.xlsx):</label><br><br>
+    <input type="file" name="excel_file" accept=".xlsx" required><br><br>
+
+    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        Import Data
+    </button>
+
+    <a href="{{ url_for('instansi.index') }}" style="margin-left: 10px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        Kembali
+    </a>
+</form>
+
+<!-- Panduan Format -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Format Excel:</strong></p>
+    <ul>
+        <li>Kolom wajib: <code>nama</code>, <code>alamat</code>, <code>kontak</code>, <code>struktur_organisasi</code>, <code>visi</code>, <code>misi</code></li>
+        <li>Baris pertama adalah nama kolom, baris kedua dan seterusnya adalah data</li>
+        <li>Jangan ada baris kosong di atas atau di tengah data</li>
+        <li>Ekstensi file harus <code>.xlsx</code></li>
+    </ul>
+</div>
+{% endblock %}

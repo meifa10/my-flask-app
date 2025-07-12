@@ -1,0 +1,62 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">✏️ Edit Data Instansi</h2>
+
+{% if session.role != 'viewer' %}
+<form method="POST" style="max-width: 700px; background: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 0 8px rgba(0,0,0,0.1);" autocomplete="off">
+    
+    <!-- Nama -->
+    <label for="nama"><strong>Nama Instansi:</strong></label><br>
+    <input type="text" id="nama" name="nama" value="{{ row[1] }}" required
+           placeholder="Masukkan nama instansi"
+           style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px;"><br>
+
+    <!-- Alamat -->
+    <label for="alamat"><strong>Alamat:</strong></label><br>
+    <textarea id="alamat" name="alamat" rows="2" required
+              placeholder="Masukkan alamat instansi"
+              style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px;">{{ row[2] }}</textarea><br>
+
+    <!-- Kontak -->
+    <label for="kontak"><strong>Kontak:</strong></label><br>
+    <input type="text" id="kontak" name="kontak" value="{{ row[3] }}" required
+           placeholder="Nomor HP / Email / Telp"
+           style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px;"><br>
+
+    <!-- Struktur Organisasi -->
+    <label for="struktur_organisasi"><strong>Struktur Organisasi:</strong></label><br>
+    <textarea id="struktur_organisasi" name="struktur_organisasi" rows="3"
+              placeholder="Struktur organisasi atau jabatan penting"
+              style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px;">{{ row[4] }}</textarea><br>
+
+    <!-- Visi -->
+    <label for="visi"><strong>Visi:</strong></label><br>
+    <textarea id="visi" name="visi" rows="3"
+              placeholder="Visi instansi"
+              style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px;">{{ row[5] }}</textarea><br>
+
+    <!-- Misi -->
+    <label for="misi"><strong>Misi:</strong></label><br>
+    <textarea id="misi" name="misi" rows="3"
+              placeholder="Misi instansi"
+              style="width:100%; padding:10px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px;">{{ row[6] }}</textarea><br>
+
+    <!-- Tombol Aksi -->
+    <button type="submit"
+            style="padding:10px 25px; background-color:#006aff; color:white; border:none; border-radius:5px; cursor:pointer;">
+        💾 Update
+    </button>
+    <a href="{{ url_for('instansi.index') }}" style="margin-left:15px; color:#007bff; text-decoration: none;">← Kembali</a>
+</form>
+
+{% else %}
+<!-- Jika viewer -->
+<div style="padding: 20px; background-color: #fff3cd; color: #856404; border-radius: 8px; max-width: 700px;">
+    🔒 Anda tidak memiliki izin untuk mengedit data. Hubungi admin jika diperlukan.
+    <br><br>
+    <a href="{{ url_for('instansi.index') }}" style="color:#007bff; text-decoration: none;">← Kembali</a>
+</div>
+{% endif %}
+
+{% endblock %}

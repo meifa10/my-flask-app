@@ -1,0 +1,40 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import Data Instansi via PDF</h2>
+
+<!-- Notifikasi Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Form Upload PDF -->
+<form method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+    <label for="file" style="font-weight: bold;">Pilih File PDF:</label><br><br>
+    <input type="file" name="file" accept=".pdf" required><br><br>
+
+    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        Upload PDF
+    </button>
+
+    <a href="{{ url_for('instansi.index') }}" style="margin-left: 10px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        ← Kembali
+    </a>
+</form>
+
+<!-- Panduan -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Upload:</strong></p>
+    <ul>
+        <li>File harus berformat <code>.pdf</code></li>
+        <li>Pastikan file tidak rusak atau kosong</li>
+        <li>Tidak ada batasan jumlah halaman, tetapi ukuran maksimal file 10MB disarankan</li>
+    </ul>
+</div>
+{% endblock %}

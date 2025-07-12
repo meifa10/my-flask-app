@@ -1,0 +1,44 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📥 Import PDF - Pengelolaan Aset</h2>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Upload Form -->
+<form method="POST" action="{{ url_for('pengelolaan.import_pdf') }}" enctype="multipart/form-data" style="margin-top: 20px;">
+    <label for="file" style="font-weight: bold;">Pilih File PDF:</label><br><br>
+    <input type="file" name="file" accept=".pdf" required style="margin-bottom: 15px;"><br>
+
+    <button type="submit" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px;">
+        Import Data 
+    </button>
+
+    <a href="{{ url_for('pengelolaan.index') }}" 
+       style="margin-left: 10px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        ← Kembali
+    </a>
+</form>
+
+<!-- Panduan Format -->
+<div style="margin-top: 40px;">
+    <p><strong>📌 Panduan Format PDF:</strong></p>
+    <ul>
+        <li>File harus berformat <code>.pdf</code></li>
+        <li>Setiap baris harus memuat: <strong>Nama Aset, Lokasi, Status, Jadwal (YYYY-MM-DD), dan PIC</strong></li>
+        <li>Contoh baris valid:<br>
+            <code>1 Mesin Pemotong Gudang A Aktif 2025-07-07 Budi</code>
+        </li>
+        <li>Status yang dikenali: <code>Aktif</code>, <code>Tidak Aktif</code>, <code>Perlu Perbaikan</code></li>
+    </ul>
+</div>
+{% endblock %}

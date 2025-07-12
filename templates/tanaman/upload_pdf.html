@@ -1,0 +1,37 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2 style="font-size: 24px;">📤 Upload PDF - Data Tanaman</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="padding: 10px; list-style-type: none;">
+      {% for category, message in messages %}
+        <li style="color: black;">• {{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('tanaman.upload_pdf') }}" enctype="multipart/form-data" style="margin-top: 20px;">
+    <input type="file" name="file" accept=".pdf" required style="margin-bottom: 10px;">
+
+    <button type="submit" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        Upload PDF
+    </button>
+
+    <a href="{{ url_for('tanaman.index') }}" style="margin-left: 10px; padding: 10px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+        Kembali
+    </a>
+</form>
+
+<div style="margin-top: 40px;">
+    <p><strong>📌 Format Isi PDF:</strong></p>
+    <ul>
+        <li>Minimal 6 elemen per baris: <code>No Nama Luas1 Luas2 TglTanam TglPanen [Hasil]</code></li>
+        <li>Contoh: <code>1 cabai 70 hektar 2019-08-19 2020-12-05 11</code></li>
+        <li>Luas lahan ditulis dalam 2 kata (misalnya "70 hektar")</li>
+        <li>Hasil panen boleh kosong, default 0</li>
+    </ul>
+</div>
+{% endblock %}

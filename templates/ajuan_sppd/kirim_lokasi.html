@@ -1,0 +1,83 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<h2>📍 Kirim Lokasi Otomatis</h2>
+
+<p style="color: green;">📡 Sistem akan mengirim lokasi Anda setiap 10 detik...</p>
+
+<form id="lokasiForm">
+    <label for="ajuan_id">Pilih Tujuan:</label><br>
+    <select name="ajuan_id" id="ajuan_id" required>
+        <option value="">-- Pilih Tujuan --</option>
+        {% for item in data %}
+            <option value="{{ item.id }}">{{ item.nama }} → {{ item.tujuan }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Latitude:</label><br>
+    <input type="text" id="latitude" name="latitude" readonly><br><br>
+
+    <label>Longitude:</label><br>
+    <input type="text" id="longitude" name="longitude" readonly><br><br>
+
+    <p id="status" style="color: blue;"></p>
+</form>
+
+<a href="{{ url_for('ajuan_sppd.index') }}" class="btn btn-secondary" style="margin-top: 15px;">← Kembali</a>
+
+<script>
+let intervalId;
+
+function startTracking() {
+    intervalId = setInterval(() => {
+        const ajuan_id = document.getElementById('ajuan_id').value;
+
+        if (!ajuan_id) {
+            document.getElementById('status').textContent = "❗ Silakan pilih tujuan terlebih dahulu.";
+            return;
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude.toFixed(6);
+                    const lng = position.coords.longitude.toFixed(6);
+
+                    document.getElementById('latitude').value = lat;
+                    document.getElementById('longitude').value = lng;
+
+                    // Kirim data ke server
+                    fetch("/ajuan_sppd/lapor_lokasi", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: `id=${ajuan_id}&latitude=${lat}&longitude=${lng}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('status').textContent = "📤 Lokasi terkirim: " + lat + ", " + lng;
+                    })
+                    .catch(error => {
+                        console.error("❌ Gagal kirim lokasi:", error);
+                        document.getElementById('status').textContent = "❌ Gagal kirim lokasi!";
+                    });
+                },
+                (error) => {
+                    document.getElementById('status').textContent = "❌ Gagal akses lokasi.";
+                }
+            );
+        } else {
+            document.getElementById('status').textContent = "❌ Browser tidak mendukung GPS.";
+        }
+    }, 10000); // setiap 10 detik
+}
+
+document.getElementById('ajuan_id').addEventListener('change', function () {
+    clearInterval(intervalId); // hentikan dulu jika sedang tracking
+    document.getElementById('status').textContent = "";
+    if (this.value !== "") {
+        startTracking();
+    }
+});
+</script>
+{% endblock %}
