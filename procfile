@@ -1,0 +1,1 @@
+web: gunicorn pabrik_gula:app
