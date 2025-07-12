@@ -1,1 +1,1 @@
-web: gunicorn pabrik_gula:app
+web: gunicorn app:app
